@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 # 定义处理每个文件的函数
 def process_csv(file_path, folder_name):
+    print("CSV文件------------！" + file_path+"---------------"+folder_name)
     # 获取文件名（不带路径）
     file_name = os.path.basename(file_path)
     # 获取文件夹名（即日期）
@@ -22,7 +23,6 @@ def process_csv(file_path, folder_name):
         header = next(reader)  # 读取文件头
         # 添加新字段到头部
         header.extend(['date', 'code', 'date_code'])
-
         # 遍历文件的每一行
         for row in reader:
             row.extend([date, code, date_code])  # 添加新字段值
@@ -56,9 +56,9 @@ def traverse_directory(base_dir):
 
 if __name__ == '__main__':
     # 设置基本目录
-    base_directory = r'D:\ticket_test'
+    base_directory = '/mnt/data1/ticket/ticket_order_csv001/2024'
 
     # 使用线程池并发执行
-    with ThreadPoolExecutor(max_workers=50) as executor:  # 设置最大线程数为10
+    with ThreadPoolExecutor(max_workers=200) as executor:  # 设置最大线程数为10
         traverse_directory(base_directory)
 print("所有CSV文件处理完成！")

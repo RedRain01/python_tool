@@ -33,9 +33,10 @@ def extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=20):
         output_folder (str): 解压后文件存放的目标文件夹路径。
         max_workers (int): 最大线程数。
     """
-    os.makedirs(output_folder, exist_ok=True)  # 确保输出目录存在
 
+    os.makedirs(output_folder, exist_ok=True)  # 确保输出目录存在
     # 获取文件夹中所有 7z 文件
+    sss=os.listdir(archive_folder)
     archive_files = [f for f in os.listdir(archive_folder) if f.endswith('.7z')]
 
     # 使用线程池并行处理多个压缩包的解压任务
@@ -53,6 +54,6 @@ def extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=20):
 
 
 if __name__ == '__main__':
-    archive_folder = r'D:/ticket'  # 存放 7z 文件的文件夹路径
-    output_folder = r'D:/ticket_excle002'  # 解压后文件存放的目标文件夹路径
-    extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=20)
+    archive_folder = '/mnt/data1/ticket/ticket_order_zip/2024'  # 存放 7z 文件的文件夹路径
+    output_folder = '/mnt/data1/ticket/ticket_order_csv001/2024'  # 解压后文件存放的目标文件夹路径
+    extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=100)
