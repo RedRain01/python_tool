@@ -24,7 +24,7 @@ def extract_single_7z_file(archive_file, archive_folder, output_folder):
         print(f"Failed to extract {archive_file}: {e}")
 
 
-def extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=20):
+def extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=40):
     """
     使用多线程解压 7z 压缩包中的所有文件，解压结果保存到目标文件夹。
 
@@ -54,6 +54,6 @@ def extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=20):
 
 
 if __name__ == '__main__':
-    archive_folder = '/mnt/data1/ticket/ticket_order_zip/2024'  # 存放 7z 文件的文件夹路径
-    output_folder = '/mnt/data1/ticket/ticket_order_csv001/2024'  # 解压后文件存放的目标文件夹路径
+    archive_folder = '/home/why/whyData/2024'  # 存放 7z 文件的文件夹路径
+    output_folder = '/mnt/data3/ticket_date/2024_csv'  # 解压后文件存放的目标文件夹路径
     extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=100)
