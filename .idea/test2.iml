@@ -4,8 +4,11 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/.venv1" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv2" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv3" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv4" />
     </content>
-    <orderEntry type="jdk" jdkName="tool" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (python_tool) (4)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
