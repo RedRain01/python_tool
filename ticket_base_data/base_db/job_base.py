@@ -63,6 +63,7 @@ def base_create_job(code, start_date, end_date, params)->Result[dict]:
             else:
                 start_date = detail[0]['job_start_date']
             end_date = date.today().strftime('%Y%m%d')
+            params=params[:2]+(start_date,)+params[3:]
             id = base_job_insert(params)['id']
             print(f"insert job id:{id}")
             if id < 1:
