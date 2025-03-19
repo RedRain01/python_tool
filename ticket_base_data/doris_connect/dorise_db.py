@@ -49,7 +49,7 @@ class DorisDB:
 
 # **初始化 Doris 数据库连接池**
 doris_db = DorisDB(
-    host='192.168.0.104',  # 替换为你的 DorisDB 主机地址
+    host='192.168.0.106',  # 替换为你的 DorisDB 主机地址
     port=9030,  # 替换为你的 DorisDB 端口号
     user='root',  # 替换为你的用户名
     password='why123',  # 替换为你的密码

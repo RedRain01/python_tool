@@ -125,7 +125,6 @@ def main():
                             print(f"--datenum:{datenum}")
                             start_date = e[0]
                             end_date = e[1]
-                            time.sleep(5)
                             datenum += 1
                             try:
                                 ts_code=row[0]
@@ -135,6 +134,7 @@ def main():
                                     print(f"数据已存在，跳过")
                                     continue
                                 df = pro.cyq_chips(ts_code=ts_code, start_date=start_date, end_date=end_date)
+                                time.sleep(5)
                                 #df = pro.cyq_chips(ts_code='000050.SZ', start_date='20250206', end_date='20250209')
                             except Exception as e:
                                 print(f"error获取 {row[0]} {start_date} {end_date} 筹码分布数据失败：{e}")
