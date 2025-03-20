@@ -64,8 +64,9 @@ def generate_date_range(start_date, end_date):
 
     return date_set
 def main():
+    jobflag=True
     code = "hm_detail"
-    params = ("游资每日明细", code, datetime.today().today(), datetime.today().today(), datetime.now(), 0, "1", "2",)
+    params = ("游资每日明细", code, datetime.today().today(), datetime.today().today(), datetime.now(), 1, "1", "2",)
     result=base_create_job(code, "20250315",  "20250316", params)
     if result.error:
         return
@@ -83,6 +84,9 @@ def main():
         df = pro.hm_detail(trade_date=date,
                            fields='trade_date, ts_code, ts_name, buy_amount, sell_amount,net_amount, hm_name, hm_orgs, tag')
         if df is not None and not df.empty:
+            if jobflag:
+                jobflag=False
+                base_job_update(id, 0)
             save_to_dorisdb(df,
                             host='192.168.0.106',  # 替换为你的 DorisDB 主机地址
                             port=9030,  # 替换为你的 DorisDB 端口号
@@ -91,8 +95,9 @@ def main():
                             database='demo',  # 替换为你的数据库名称
                             selected_columns=selected_columns  # 传入选择的列名
                             )
-    base_job_update(id)
-    print("任务执行完成")
+    if not jobflag:
+        base_job_update(id, 9)
+    print(f"任务执行完成:{jobflag}")
     print(f"任务更新结果：{result}")
 if __name__ == '__main__':
     main()

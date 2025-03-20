@@ -56,7 +56,7 @@ def traverse_directory(base_dir):
 
 if __name__ == '__main__':
     # 设置基本目录
-    base_directory = '/mnt/data1/ticket/ticket_order_csv001/2024'
+    base_directory = '/mnt/data3/ticket_date/2025/csv'
 
     # 使用线程池并发执行
     with ThreadPoolExecutor(max_workers=200) as executor:  # 设置最大线程数为10
