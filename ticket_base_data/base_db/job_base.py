@@ -1,5 +1,5 @@
 from ticket_base_data.doris_connect.dorise_db import doris_db
-from datetime import  date,timedelta
+from datetime import  date,timedelta,datetime
 from dataclasses import dataclass
 from typing import Generic, TypeVar, Optional
 
@@ -61,8 +61,13 @@ def base_create_job(code, start_date, end_date, params)->Result[dict]:
             if detail is None or len(detail) == 0:
                 start_date = start_date
             else:
+                # 开始时间+1
+                # 将字符串转换为 datetime 对象
+                # 给日期加一天
+                start_date = detail[0]['job_end_date'] + timedelta(days=1)
+                # 将新的日期转换回字符串
+                start_date = start_date.strftime('%Y%m%d')
                 #已存在已完成的任务
-                start_date = detail[0]['job_end_date']
             end_date = date.today().strftime('%Y%m%d')
             if start_date != end_date:
                 current_date = date.today()
@@ -71,6 +76,7 @@ def base_create_job(code, start_date, end_date, params)->Result[dict]:
                 # 格式化前一天的日期为 'YYYYMMDD'
                 end_date = previous_day.strftime('%Y%m%d')
             params=params[:2]+(start_date,)+params[3:]
+            params=params[:3]+(end_date,)+params[4:]
             id = base_job_insert(params)['id']
             print(f"insert job id:{id}")
             if id < 1:
