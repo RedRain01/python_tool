@@ -75,10 +75,11 @@ def main():
     start_date = result.data['start_date']
     end_date = result.data['end_date']
     dates = generate_date_range(convert_to_string(start_date), convert_to_string(end_date))
+    ts.set_token(token)
+
     pro = ts.pro_api()
     selected_columns = ['trade_date', 'ts_code', 'ts_name', 'buy_amount', 'sell_amount',
                         'net_amount', 'hm_name', 'hm_orgs', 'tag']  # 这里是你选择的列名
-    ts.set_token(token)
     for date in dates:
         time.sleep(1)
         df = pro.hm_detail(trade_date=date,

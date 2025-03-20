@@ -65,6 +65,9 @@ def base_create_job(code, start_date, end_date, params)->Result[dict]:
                 # 将字符串转换为 datetime 对象
                 # 给日期加一天
                 start_date = detail[0]['job_end_date'] + timedelta(days=1)
+                if detail[0]['job_end_date'].strftime('%Y%m%d') ==date.today().strftime('%Y%m%d'):
+                    print("当日任务已经完成")
+                    return Result(success=False, error="当日任务已经完成")
                 # 将新的日期转换回字符串
                 start_date = start_date.strftime('%Y%m%d')
                 #已存在已完成的任务
