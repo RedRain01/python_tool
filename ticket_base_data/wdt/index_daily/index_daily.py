@@ -1,4 +1,5 @@
 from datetime import date
+import time
 import tushare as ts
 import mysql.connector
 from mysql.connector import Error
@@ -21,7 +22,7 @@ def save_to_dorisdb(df, host, port, user, password, database):
                 columns = df.columns.tolist()
                 placeholders = ', '.join(['%s'] * len(columns))
                 insert_query = f"""
-                INSERT INTO ticket_index_daily222 (
+                INSERT INTO ticket_index_daily_test (
                     {', '.join(columns)}
                 ) VALUES (
                     {placeholders}
@@ -58,9 +59,9 @@ def generate_date_range(start_date, end_date):
 
 def main():
     code = "index_daily"
-    str = "指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情"
-    params = ("指数日线行情", "index_daily", date.today(), date.today(), datetime.now(), 0, "1", "2",)
-    result=base_create_job(code, "2022-08-01",  "2022-09-01", params)
+    jobflag = True
+    params = ("指数日线行情", "index_daily", date.today(), date.today(), datetime.now(), 1, "1", "2",)
+    result=base_create_job(code, "2025-03-14",  "2025-03-17", params)
     token = result.data['token']
     id = result.data['id']
     start_date = result.data['start_date']
@@ -70,7 +71,7 @@ def main():
     try:
             # 连接到 DorisDB 数据库
             with mysql.connector.connect(
-                    host='192.168.0.104',  # 替换为你的 DorisDB 主机地址
+                    host='192.168.0.106',  # 替换为你的 DorisDB 主机地址
                     port=9030,  # 替换为你的 DorisDB 端口号
                     user='root',  # 替换为你的用户名
                     password='why123',  # 替换为你的密码
@@ -89,16 +90,20 @@ def main():
                     num = 0
                     for row in rows:
                         num += 1
-                        if num ==4:
+                        if num ==100:
                             break
                         print(f"all--num:{len(rows)}---run--num:{num}")
                         #   df = pro.index_daily(ts_code='000036.SZ', start_date='20180101', end_date='20181010')
                         start_date =convert_to_string(start_date)
                         end_date =convert_to_string(end_date)
                         df = pro.daily(ts_code=row[0], start_date=start_date, end_date=end_date)
+                        time.sleep(0.03)
                         if df is not None and not df.empty:
+                            if jobflag:
+                                jobflag = False
+                                base_job_update(id, 0)
                             save_to_dorisdb(df,
-                                            host='192.168.0.104',  # 替换为你的 DorisDB 主机地址
+                                            host='192.168.0.106',  # 替换为你的 DorisDB 主机地址
                                             port=9030,  # 替换为你的 DorisDB 端口号
                                             user='root',  # 替换为你的用户名
                                             password='why123',  # 替换为你的密码
@@ -106,8 +111,9 @@ def main():
                                             )
                         else:
                             continue
-                    result=base_job_update(id)
-                    print("任务执行完成")
+                    if not jobflag:
+                        base_job_update(id, 9)
+                    print(f"任务执行完成:{jobflag}")
                     print(f"任务更新结果：{result}")
     except Error as e:
      print(f"数据库操作出现错误: {e}")
