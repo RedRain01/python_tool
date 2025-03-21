@@ -22,7 +22,7 @@ def save_to_dorisdb(df, host, port, user, password, database):
                 columns = df.columns.tolist()
                 placeholders = ', '.join(['%s'] * len(columns))
                 insert_query = f"""
-                INSERT INTO ticket_index_daily_test (
+                INSERT INTO ticket_index_daily (
                     {', '.join(columns)}
                 ) VALUES (
                     {placeholders}
