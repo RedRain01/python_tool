@@ -90,8 +90,6 @@ def main():
                     num = 0
                     for row in rows:
                         num += 1
-                        if num ==100:
-                            break
                         print(f"all--num:{len(rows)}---run--num:{num}")
                         #   df = pro.index_daily(ts_code='000036.SZ', start_date='20180101', end_date='20181010')
                         start_date =convert_to_string(start_date)
