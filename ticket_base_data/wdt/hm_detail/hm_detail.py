@@ -24,7 +24,7 @@ def save_to_dorisdb(df, host, port, user, password, database, selected_columns):
                 columns = df.columns.tolist()
                 placeholders = ', '.join(['%s'] * len(columns))
                 insert_query = f"""
-                INSERT INTO ticket_hm_detail (
+                INSERT INTO ticket_hm_detail_new (
                     {', '.join(columns)}
                 ) VALUES (
                     {placeholders}
@@ -67,7 +67,7 @@ def main():
     jobflag=True
     code = "hm_detail"
     params = ("游资每日明细", code, datetime.today().today(), datetime.today().today(), datetime.now(), 1, "1", "2",)
-    result=base_create_job(code, "20250315",  "20250316", params)
+    result=base_create_job(code, "20220801",  "20250318", params)
     if result.error:
         return
     token = result.data['token']
