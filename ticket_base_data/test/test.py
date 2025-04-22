@@ -48,6 +48,9 @@ def batch_insert(data):
         cursor.executemany(sql, data)
         conn.commit()
 
+
+
+
         print(f"成功插入 {len(data)} 条数据")
         return True
 
