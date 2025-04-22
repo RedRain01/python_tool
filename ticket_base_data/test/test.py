@@ -60,6 +60,9 @@ def batch_insert(data):
             conn.close()
 
 
+
+
+
 if __name__ == '__main__':
     batch_size = 1000  # 每批次数据量
     total_batches = 1000  # 总批次数
