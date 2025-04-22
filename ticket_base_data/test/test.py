@@ -51,6 +51,7 @@ def batch_insert(data):
 
 
 
+
         print(f"成功插入 {len(data)} 条数据")
         return True
 
