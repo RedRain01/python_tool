@@ -53,7 +53,7 @@ def split_date_ranges(start_date: str, end_date: str):
     ranges = []
     while start <= end:
         # 计算 10 天后的时间（不能超过 `end`）
-        next_end = min(start + timedelta(days=9), end)
+        next_end = min(start + timedelta(days=14), end)
         ranges.append((start.strftime("%Y%m%d"), next_end.strftime("%Y%m%d")))
 
         # 更新 `start` 到 `next_end` 的下一天
@@ -88,14 +88,13 @@ def split_date_ranges(start_date: str, end_date: str):
 def main():
     code = "cyq_chips"
     params = ("每日筹码分布", code, date.today(), date.today(), datetime.now(), 0, "", "",)
-    result=base_create_job(code, "20250101",  "20250310", params)
+    result=base_create_job(code, "20220801",  "20230630", params)
     if result.error:
         return
     token = result.data['token']
     id = result.data['id']
     start_date = result.data['start_date']
     end_date = result.data['end_date']
-
     try:
             # 连接到 DorisDB 数据库
             with mysql.connector.connect(
@@ -128,13 +127,12 @@ def main():
                             datenum += 1
                             try:
                                 ts_code=row[0]
-                                cursor.execute("SELECT * FROM cyq_chips WHERE ts_code = %s AND trade_date >= %s AND trade_date <= %s", (ts_code, start_date, end_date))
+                                cursor.execute("SELECT * FROM wdt_cyq_chips WHERE ts_code = %s AND trade_date >= %s AND trade_date <= %s", (ts_code, start_date, end_date))
                                 rows_old = cursor.fetchall()
                                 if len(rows_old) > 0:
                                     print(f"数据已存在，跳过")
                                     continue
                                 df = pro.cyq_chips(ts_code=ts_code, start_date=start_date, end_date=end_date)
-                                time.sleep(5)
                                 #df = pro.cyq_chips(ts_code='000050.SZ', start_date='20250206', end_date='20250209')
                             except Exception as e:
                                 print(f"error获取 {row[0]} {start_date} {end_date} 筹码分布数据失败：{e}")
@@ -149,7 +147,7 @@ def main():
                                                 )
                             else:
                                 continue
-                    result=base_job_update(id)
+                    result=base_job_update(id,9)
                     print("任务执行完成")
                     print(f"任务更新结果：{result}")
     except Error as e:

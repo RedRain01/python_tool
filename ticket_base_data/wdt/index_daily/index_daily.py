@@ -2,6 +2,7 @@ from datetime import date
 import time
 import tushare as ts
 import mysql.connector
+from io import IOBase
 from mysql.connector import Error
 from datetime import datetime, timedelta
 from ticket_base_data.base_db.job_base import  base_job_update,base_create_job
@@ -90,6 +91,8 @@ def main():
                     num = 0
                     for row in rows:
                         num += 1
+                        if num ==20:
+                            break
                         print(f"all--num:{len(rows)}---run--num:{num}")
                         #   df = pro.index_daily(ts_code='000036.SZ', start_date='20180101', end_date='20181010')
                         start_date =convert_to_string(start_date)
