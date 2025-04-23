@@ -15,8 +15,6 @@ try:
 # 连接到 MySQL
 conn = mysql.connector.connect(
 host=host,
-
-
 user=user,
 password=password,
 database=database

@@ -60,7 +60,8 @@ def generate_date_range(start_date, end_date):
 
 def main():
     code = "stk_factor_pro"
-    params = ("股票技术面因子",code, date.today(), date.today(), datetime.now(), 0, "1", "2",)
+    jobflag = True
+    params = ("股票技术面因子",code, date.today(), date.today(), datetime.now(), 1, "1", "2",)
     result=base_create_job(code, "2020-01-01",  "2025-03-10", params)
     if result.error:
         return
@@ -71,7 +72,7 @@ def main():
     try:
             # 连接到 DorisDB 数据库
             with mysql.connector.connect(
-                    host='192.168.0.104',  # 替换为你的 DorisDB 主机地址
+                    host='192.168.0.106',  # 替换为你的 DorisDB 主机地址
                     port=9030,  # 替换为你的 DorisDB 端口号
                     user='root',  # 替换为你的用户名
                     password='why123',  # 替换为你的密码
@@ -81,7 +82,6 @@ def main():
                 with conn.cursor() as cursor:
                     # 执行查询获取 ticket 表的所有数据
                     cursor.execute("SELECT * FROM ticket_base_list")
-                    # cursor.execute("SELECT ts_code FROM ticket_base_list WHERE ts_code NOT IN ( SELECT ts_code  FROM ticket_index_daily )")
                     # 获取所有查询结果
                     rows = cursor.fetchall()
                     ts.set_token(token)
@@ -91,31 +91,22 @@ def main():
                     for row in rows:
                         num += 1
                         print(f"all--num:{len(rows)}---run--num:{num}")
-                        #   df = pro.index_daily(ts_code='000036.SZ', start_date='20180101', end_date='20181010')
                         start_date =convert_to_string(start_date)
                         end_date =convert_to_string(end_date)
                         ts_code = row[0]
-                        # start_date = '20200102'
-                        # end_date = '20200109'
-                        # ts_code = '000004.SZ'
-                        cursor.execute(
-                            "SELECT * FROM wdt_stk_factor_pro WHERE ts_code = %s AND trade_date >= %s AND trade_date <= %s",
-                            (ts_code, start_date, end_date))
-                        rows_old = cursor.fetchall()
-                        if len(rows_old) > 0:
-                            print(f"数据已存在，跳过")
-                            continue
                         try:
                             df = pro.stk_factor_pro(ts_code=ts_code, start_date=start_date, end_date=end_date)
                         except Exception as e:
                             print(f"error获取 {row[0]} {start_date} {end_date} 股票技术面因子：{e}")
                             continue
-                        df = pro.stk_factor_pro(ts_code=ts_code, start_date=start_date, end_date=end_date)
                         time.sleep(2)
                         df = df.fillna(0.0)  # 或者 df.fillna(0)
                         if df is not None and not df.empty:
+                            if jobflag:
+                                jobflag = False
+                                base_job_update(id, 0)
                             save_to_dorisdb(df,
-                                            host='192.168.0.104',  # 替换为你的 DorisDB 主机地址
+                                            host='192.168.0.106',  # 替换为你的 DorisDB 主机地址
                                             port=9030,  # 替换为你的 DorisDB 端口号
                                             user='root',  # 替换为你的用户名
                                             password='why123',  # 替换为你的密码
@@ -123,7 +114,8 @@ def main():
                                             )
                         else:
                             continue
-                    result=base_job_update(id)
+                    if not jobflag:
+                        result=base_job_update(id,9)
                     print("任务执行完成")
                     print(f"任务更新结果：{result}")
     except Error as e:
