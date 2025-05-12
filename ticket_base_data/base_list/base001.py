@@ -53,7 +53,7 @@ def save_to_dorisdb(df, host, port, user, password, database, selected_columns):
 
 
 if __name__ == '__main__':
-    ts.set_token('e8778dbd9b06d8fcee802d6d60d80ce706d2863979b551aad68845cf')
+    ts.set_token('f5c0dd50765d8f388d7dd63aaae06ad8aa19c341ed764fad1d8d7dca')
     pro = ts.pro_api()
     df = pro.stock_basic(exchange='', list_status='L')
 
@@ -64,10 +64,10 @@ if __name__ == '__main__':
 
     # 保存到 DorisDB
     save_to_dorisdb(df,
-                    host='192.168.0.104',  # 替换为你的 DorisDB 主机地址
+                    host='192.168.1.4',  # 替换为你的 DorisDB 主机地址
                     port=9030,  # 替换为你的 DorisDB 端口号
                     user='root',  # 替换为你的用户名
-                    password='why123',  # 替换为你的密码
+                    password='',  # 替换为你的密码
                     database='demo',  # 替换为你的数据库名称
                     selected_columns=selected_columns  # 传入选择的列名
                     )

@@ -7,10 +7,10 @@ def base_job_query(code):
         config_loader.load_config("config.yaml")
         # 连接到 DorisDB 数据库
         with mysql.connector.connect(
-                host='192.168.0.104',  # 替换为你的 DorisDB 主机地址
+                host='192.168.1.4',  # 替换为你的 DorisDB 主机地址
                 port=9030,  # 替换为你的 DorisDB 端口号
                 user='root',  # 替换为你的用户名
-                password='why123',  # 替换为你的密码
+                password='',  # 替换为你的密码
                 database='demo',  # 替换为你的数据库名称
         ) as conn:
             # 创建一个游标对象

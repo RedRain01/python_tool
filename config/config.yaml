@@ -1,7 +1,7 @@
 doris_db:
-  host: "192.168.0.100"
+  host: "192.168.1.5"
   port: 9030
   user: "root"
-  password: "why123"
+  password: ""
   database: "demo"
 wdt_token: "your_wdt_token"

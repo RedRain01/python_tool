@@ -1,11 +1,19 @@
 import mysql.connector
 from mysql.connector import pooling
+import core.config_loader as config_loader
 
 class DorisDB:
     """Doris 数据库操作封装"""
 
     def __init__(self, host, port, user, password, database, pool_size=5):
         """初始化数据库连接池"""
+        host = config_loader.load_config("doris_db.host")
+        port = config_loader.load_config("doris_db.port")
+        user = config_loader.load_config("doris_db.user")
+        password = config_loader.load_config("doris_db.password")
+        database = config_loader.load_config("doris_db.database")
+        print("初始化 Doris 数据库连接池...",database)
+
         self.db_pool = pooling.MySQLConnectionPool(
             pool_name="doris_pool",
             pool_size=pool_size,
@@ -31,6 +39,7 @@ class DorisDB:
             conn.close()
         return result
 
+
     def execute_update(self, query, params=None):
         """执行 INSERT、UPDATE、DELETE 操作"""
         conn = self.db_pool.get_connection()
@@ -47,11 +56,30 @@ class DorisDB:
             cursor.close()
             conn.close()
 
+
+    def execute_many(self, query, params=None):
+        """执行 INSERT、UPDATE、DELETE 操作"""
+        conn = self.db_pool.get_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.executemany(query, params)
+            conn.commit()
+            return cursor.rowcount  # 返回受影响的行数
+        except mysql.connector.Error as e:
+            print(f"执行错误: {e}")
+            conn.rollback()
+            return -1
+        finally:
+            cursor.close()
+            conn.close()
+
+
+
 # **初始化 Doris 数据库连接池**
 doris_db = DorisDB(
-    host='192.168.0.104',  # 替换为你的 DorisDB 主机地址
+    host='192.168.1.4',  # 替换为你的 DorisDB 主机地址
     port=9030,  # 替换为你的 DorisDB 端口号
     user='root',  # 替换为你的用户名
-    password='why123',  # 替换为你的密码
+    password='',  # 替换为你的密码
     database='demo',  # 替换为你的数据库名称
 )

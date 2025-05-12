@@ -24,11 +24,11 @@ def base_dic_query(key):
 
 def base_job_insert(params):
     try:
-        query = '''INSERT INTO job_details ( job_name, job_code, job_start_date , job_end_date ,job_time, job_status, remark, job_json)
+        query = '''INSERT INTO demo.job_details ( job_name, job_code, job_start_date , job_end_date ,job_time, job_status, remark, job_json)
                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s)'''
         num = doris_db.execute_update(query, params)
         if num == 1:
-            query_last_id = "SELECT MAX(id) as id FROM job_details"
+            query_last_id = "SELECT MAX(id) as id FROM demo.job_details"
             last_id = doris_db.execute_query(query_last_id, fetchone=True)
             return last_id
     except Exception as e:
@@ -40,7 +40,7 @@ def base_job_insert(params):
 
 
 def base_job_update(id,state):
-    update = ''' UPDATE  job_details  SET job_status = %s  WHERE  id = %s'''
+    update = ''' UPDATE  demo.job_details  SET job_status = %s  WHERE  id = %s'''
     params = (state,id)
     num=doris_db.execute_update(update, params)
     return num
