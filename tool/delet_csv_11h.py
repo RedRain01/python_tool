@@ -65,7 +65,7 @@ def process_csv_files_in_directory(directory_path, max_workers=10):
 
 if __name__ == "__main__":
     # 指定要处理的目录路径
-    directory_path = "/mnt/data3/ticket_date/2025/newcsv111"
+    directory_path = "/mnt/data3/ticket_date/2024_csv"
 
     # 设置并发数为 10
     max_workers = 10
