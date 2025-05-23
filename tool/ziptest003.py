@@ -54,6 +54,6 @@ def extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=40):
 
 
 if __name__ == '__main__':
-    archive_folder = '/mnt/data3/ticket_date/test'  # 存放 7z 文件的文件夹路径
-    output_folder = '/mnt/data3/ticket_date/text_csv'  # 解压后文件存放的目标文件夹路径
+    archive_folder = '/mnt/data3/ticket_date/2025/allzip'  # 存放 7z 文件的文件夹路径
+    output_folder = '/mnt/data3/ticket_date/2025/newcsv111'    # 解压后文件存放的目标文件夹路径
     extract_7z_files_in_parallel(archive_folder, output_folder, max_workers=100)

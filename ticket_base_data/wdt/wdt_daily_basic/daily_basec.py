@@ -48,8 +48,9 @@ def generate_date_range(start_date, end_date):
     return date_set
 def main():
     code = "daily_basic"
+    #https://tushare.pro/document/2?doc_id=32
     params = ("每日指标", code, datetime.today().today(), datetime.today().today(), datetime.now(), 0, "1", "2",)
-    result=base_create_job(code, "20250101",  "20250429", params)
+    result=base_create_job(code, "20220101",  "20250101", params)
     if result.error:
         return
     token = result.data['token']

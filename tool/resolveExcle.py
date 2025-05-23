@@ -47,6 +47,6 @@ def extract_and_rename_csv_files(archive_folder, output_folder):
 
 
 if __name__ == '__main__':
-    archive_folder = '/mnt/data3/ticket_date/2025/test'  # 存放 7z 文件的文件夹路径
-    output_folder = '/mnt/data3/ticket_date/2025/testcsv1111'
+    archive_folder = '/mnt/data3/ticket_date/2025/allzip'  # 存放 7z 文件的文件夹路径
+    output_folder = '/mnt/data3/ticket_date/2025/csv'
     extract_and_rename_csv_files(archive_folder, output_folder)
