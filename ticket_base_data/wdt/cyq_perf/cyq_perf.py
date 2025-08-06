@@ -48,7 +48,7 @@ def main():
     #https://tushare.pro/document/2?doc_id=293
   #  str = "指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情指数日线行情"
     params = ("每日筹码及胜率", code, date.today(), date.today(), datetime.now(), 0, "", "",)
-    result=base_create_job(code, "2020-01-01",  "2025-03-10", params)
+    result=base_create_job(code, "2025-07-25",  "2025-08-04", params)
     if result.error:
         return
     token = result.data['token']

@@ -51,7 +51,7 @@ def main():
     code = "stk_factor_pro"
     jobflag = True
     params = ("股票技术面因子",code, date.today(), date.today(), datetime.now(), 1, "1", "2",)
-    result=base_create_job(code, "2020-01-01",  "2025-05-09", params)
+    result=base_create_job(code, "2025-05-08",  "2025-08-05", params)
     if result.error:
         return
     token = result.data['token']

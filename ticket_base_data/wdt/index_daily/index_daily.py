@@ -49,7 +49,7 @@ def main():
     code = "index_daily"
     jobflag = True
     params = ("指数日线行情", "index_daily", date.today(), date.today(), datetime.now(), 1, "1", "2",)
-    result=base_create_job(code, "2020-01-01",  "2025-05-13", params)
+    result=base_create_job(code, "2025-05-14",  "2025-08-04", params)
     token = result.data['token']
     id = result.data['id']
     start_date = result.data['start_date']

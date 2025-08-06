@@ -73,7 +73,7 @@ def split_date_ranges(start_date: str, end_date: str):
 def main():
     code = "cyq_chips"
     params = ("每日筹码分布", code, date.today(), date.today(), datetime.now(), 0, "", "",)
-    result=base_create_job(code, "20220101",  "20250515", params)
+    result=base_create_job(code, "20250515",  "20250805", params)
     if result.error:
         return
     token = result.data['token']

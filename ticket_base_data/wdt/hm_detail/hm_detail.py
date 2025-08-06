@@ -51,7 +51,7 @@ def main():
     code = "hm_detail"
     #https://tushare.pro/document/2?doc_id=312
     params = ("游资每日明细", code, datetime.today().today(), datetime.today().today(), datetime.now(), 1, "1", "2",)
-    result=base_create_job(code, "20220801",  "20250318", params)
+    result=base_create_job(code, "20250725",  "20250804", params)
     if result.error:
         return
     token = result.data['token']
