@@ -1,8 +1,6 @@
 from datetime import date
 import time
 import tushare as ts
-import mysql.connector
-from io import IOBase
 from mysql.connector import Error
 from datetime import datetime, timedelta
 from ticket_base_data.doris_connect.dorise_db import doris_db
@@ -14,7 +12,7 @@ def save_to_dorisdb(df):
         columns = df.columns.tolist()
         placeholders = ', '.join(['%s'] * len(columns))
         insert_query = f"""
-                        INSERT INTO demo.wdt_index_daily (
+                        INSERT INTO demo.wdt_stk_limit (
                             {', '.join(columns)}
                         ) VALUES (
                             {placeholders}
@@ -46,11 +44,11 @@ def generate_date_range(start_date, end_date):
 
 
 def main():
-    code = "index_daily"
+    code = "stk_limit"
     jobflag = True
-   # https://tushare.pro/document/2?doc_id=95
-    params = ("指数日线行情", "index_daily", date.today(), date.today(), datetime.now(), 1, "1", "2",)
-    result=base_create_job(code, "2025-05-14",  "2025-08-04", params)
+    #https://tushare.pro/document/2?doc_id=183
+    params = ("每日涨跌停价格", "stk_limit", date.today(), date.today(), datetime.now(), 1, "1", "2",)
+    result=base_create_job(code, "2020-01-01",  "2025-05-23", params)
     token = result.data['token']
     id = result.data['id']
     start_date = result.data['start_date']
@@ -66,16 +64,16 @@ def main():
         for row in rows:
             num += 1
             print(f"all--num:{len(rows)}---run--num:{num}")
-            #   df = pro.index_daily(ts_code='000036.SZ', start_date='20180101', end_date='20181010')
             start_date = convert_to_string(start_date)
             end_date = convert_to_string(end_date)
-            df = pro.daily(ts_code=row['ts_code'], start_date=start_date, end_date=end_date)
-            time.sleep(3)
+            df = pro.stk_limit(ts_code=row['ts_code'], start_date=start_date, end_date=end_date, fields='ts_code,trade_date,pre_close,up_limit,down_limit')
+            time.sleep(5)
             if df is not None and not df.empty:
                 if jobflag:
                     jobflag = False
                     base_job_update(id, 0)
-                save_to_dorisdb(df )
+                df = df.fillna(0)
+                save_to_dorisdb(df)
             else:
                 continue
         if not jobflag:

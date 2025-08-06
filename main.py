@@ -88,6 +88,11 @@ def main():
         pool_size=10         # 连接池大小
     )
 
+
+
+
+
+
     # 使用线程池并发插入数据
     start_time = time.time()  # 记录开始时间
     with ThreadPoolExecutor(max_workers=10) as executor:
